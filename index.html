@@ -9,27 +9,58 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 * { box-sizing: border-box; }
-body { 
-    font-family: 'Poppins', Arial, sans-serif; 
-    margin: 0; 
-    background: linear-gradient(135deg, #f4f4f4 0%, #e8f5e8 100%); 
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #f4f7fa 0%, #e8f5e8 25%, #fff3e0 50%, #fce4ec 75%, #f3e5f5 100%);
+    background-attachment: fixed;
     color: #333;
-    animation: fadeIn 1s ease-in;
+    animation: fadeIn 1.5s ease-in;
+    min-height: 100vh;
+    position: relative;
+}
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(156, 39, 176, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-header { 
-    background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 50%, #66BB6A 100%);
-    color: white; 
-    padding: 0; 
-    box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.8), 0 0 30px rgba(76, 175, 80, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); }
+}
+header {
+    background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 25%, #66BB6A 50%, #81C784 75%, #A5D6A7 100%);
+    color: white;
+    padding: 0;
+    box-shadow: 0 10px 40px rgba(76, 175, 80, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 3px solid #FFC107;
-    backdrop-filter: blur(10px);
+    border-bottom: 4px solid #FFC107;
+    backdrop-filter: blur(20px);
+    animation: slideInUp 0.8s ease-out;
 }
 .navbar {
     width: 100%;
@@ -43,8 +74,8 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="80" r="0.8" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.4;
     pointer-events: none;
 }
 .nav-container {
@@ -614,6 +645,57 @@ input:focus, select:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
 }
+/* Notification Settings Styles */
+.notification-settings {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 4px solid #2E7D32;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.notification-settings h4 {
+    color: #2E7D32;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.notification-settings h4 i {
+    margin-right: 8px;
+}
+.notification-settings p {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.notification-settings button {
+    margin-right: 10px;
+    margin-bottom: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.notification-settings button i {
+    margin-right: 5px;
+}
+.notification-settings #notificationStatus {
+    padding: 8px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+.dark-mode .notification-settings {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+    color: #e0e0e0;
+}
+.dark-mode .notification-settings h4 {
+    color: #4CAF50;
+}
+.dark-mode .notification-settings p {
+    color: #ccc;
+}
 table { 
     width: 100%; 
     border-collapse: collapse; 
@@ -811,6 +893,7 @@ a:hover { color: #45a049; text-decoration: underline; }
 <div class="notification-settings" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #2E7D32;">
     <h4><i class="fas fa-bell"></i> Notification Settings</h4>
     <p>Get alerts for crop threats, mandi rate changes, and farming tips.</p>
+    <div id="notificationStatus" style="margin-bottom: 10px; font-weight: bold;"></div>
     <button onclick="requestNotificationPermission()" style="background: #2E7D32; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
         <i class="fas fa-bell"></i> Enable Notifications
     </button>
@@ -819,6 +902,9 @@ a:hover { color: #45a049; text-decoration: underline; }
     </button>
     <button onclick="checkMandiRateChanges()" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
         <i class="fas fa-chart-line"></i> Check Mandi Rates
+    </button>
+    <button onclick="testNotifications()" style="background: #9C27B0; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+        <i class="fas fa-test-tube"></i> Test Notifications
     </button>
 </div>
 </section>
@@ -1014,32 +1100,82 @@ function saveCropsToStorage() {
 }
 
 // Notification System
+let notificationEnabled = false;
+
 function requestNotificationPermission() {
     if ('Notification' in window) {
-        Notification.requestPermission().then(permission => {
+        if (Notification.permission === 'granted') {
+            notificationEnabled = true;
+            updateNotificationStatus();
+            console.log('Notification permission already granted');
+            return Promise.resolve('granted');
+        }
+
+        return Notification.requestPermission().then(permission => {
+            notificationEnabled = (permission === 'granted');
+            updateNotificationStatus();
+
             if (permission === 'granted') {
                 console.log('Notification permission granted');
+                showNotification('Notifications Enabled!', 'You will now receive alerts for crop threats and mandi rate changes.');
+            } else {
+                console.log('Notification permission denied');
+                alert('Notifications are disabled. You can enable them in your browser settings or click the notification button again.');
             }
+            return permission;
         });
+    } else {
+        alert('Your browser does not support notifications.');
+        return Promise.resolve('denied');
+    }
+}
+
+function updateNotificationStatus() {
+    const statusElement = document.getElementById('notificationStatus');
+    if (statusElement) {
+        if (notificationEnabled) {
+            statusElement.innerHTML = '<i class="fas fa-bell" style="color: #4CAF50;"></i> Notifications Enabled';
+            statusElement.style.color = '#4CAF50';
+        } else {
+            statusElement.innerHTML = '<i class="fas fa-bell-slash" style="color: #f44336;"></i> Notifications Disabled';
+            statusElement.style.color = '#f44336';
+        }
     }
 }
 
 function showNotification(title, body, icon = '/favicon.ico') {
-    if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification(title, {
-            body: body,
-            icon: icon,
-            badge: icon
-        });
+    if ('Notification' in window && Notification.permission === 'granted' && notificationEnabled) {
+        try {
+            new Notification(title, {
+                body: body,
+                icon: icon,
+                badge: icon,
+                requireInteraction: false
+            });
+        } catch (error) {
+            console.log('Notification failed:', error);
+        }
+    } else {
+        console.log('Notifications not enabled or permission not granted');
     }
+}
+
+// Test notification function
+function testNotifications() {
+    showNotification('Test Notification', 'This is a test notification to verify your notification settings are working correctly.');
+    showNotification('Kissan Smart Alert', 'Notifications are enabled! You will receive updates about crop threats and mandi rates.');
 }
 
 // Threat Detection System
 function checkForThreats() {
-    if (crops.length === 0) return;
+    if (crops.length === 0) {
+        showNotification('No Crops Found', 'Add some crops to your monitoring list to receive threat alerts.');
+        return;
+    }
 
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-indexed
+    let threatsFound = 0;
 
     crops.forEach(cropData => {
         const plantDate = new Date(cropData.date);
@@ -1049,21 +1185,41 @@ function checkForThreats() {
         if (cropData.crop.toLowerCase().includes('wheat')) {
             if (currentMonth >= 3 && currentMonth <= 5) { // March-May
                 showNotification('Wheat Disease Alert', 'Watch for rust and powdery mildew in your wheat crop. Apply preventive fungicide.');
+                threatsFound++;
             }
         }
 
         if (cropData.crop.toLowerCase().includes('rice')) {
             if (daysSincePlanting > 30 && daysSincePlanting < 60) {
                 showNotification('Rice Pest Alert', 'Monitor for stem borers and leaf folders in your rice crop.');
+                threatsFound++;
             }
         }
 
         if (cropData.crop.toLowerCase().includes('cotton')) {
             if (currentMonth >= 6 && currentMonth <= 8) { // June-August
                 showNotification('Cotton Bollworm Alert', 'High risk of bollworm infestation. Consider insecticide application.');
+                threatsFound++;
             }
         }
     });
+
+    // Always show a status notification
+    if (threatsFound === 0) {
+        const farmingTips = [
+            'Keep soil moisture levels optimal for your crops.',
+            'Regularly inspect crops for early signs of pests or diseases.',
+            'Ensure proper irrigation and drainage systems are maintained.',
+            'Monitor weather forecasts for extreme conditions.',
+            'Apply balanced fertilizers based on crop requirements.'
+        ];
+        const randomTip = farmingTips[Math.floor(Math.random() * farmingTips.length)];
+
+        showNotification('Crop Monitoring Active',
+            `Checked ${crops.length} crop${crops.length > 1 ? 's' : ''}. No immediate threats detected. Tip: ${randomTip}`);
+    } else {
+        showNotification('Threat Check Complete', `Found ${threatsFound} potential threat${threatsFound > 1 ? 's' : ''} for your crops. Check notifications above.`);
+    }
 }
 
 // Mandi Rate Monitoring
@@ -1073,29 +1229,62 @@ function checkMandiRateChanges() {
     // Simulate checking for rate changes (in real app, this would fetch from API)
     const crops = ['wheat', 'rice', 'cotton', 'sugarcane'];
     const cities = ['Lahore', 'Multan', 'Faisalabad', 'Karachi'];
+    let changesFound = 0;
+    let totalChecks = 0;
 
     crops.forEach(crop => {
         cities.forEach(city => {
             const key = `${crop}_${city}`;
             const currentRate = Math.floor(Math.random() * 100) + 50; // Simulated rate
             const lastRate = lastMandiRates[key];
+            totalChecks++;
 
             if (lastRate && Math.abs(currentRate - lastRate) > 5) { // 5% change threshold
                 const change = ((currentRate - lastRate) / lastRate * 100).toFixed(1);
                 const direction = change > 0 ? 'increased' : 'decreased';
                 showNotification(`Mandi Rate Alert: ${crop} in ${city}`,
                     `Price ${direction} by ${Math.abs(change)}% to Rs. ${currentRate}/kg`);
+                changesFound++;
             }
 
             lastMandiRates[key] = currentRate;
         });
     });
+
+    // Always show a status notification with current rates
+    const sampleRates = [];
+    crops.slice(0, 2).forEach(crop => {
+        const city = cities[0];
+        const key = `${crop}_${city}`;
+        const rate = lastMandiRates[key] || Math.floor(Math.random() * 100) + 50;
+        sampleRates.push(`${crop}: Rs. ${rate}/kg in ${city}`);
+    });
+
+    if (changesFound === 0) {
+        showNotification('Mandi Rate Check Complete',
+            `Checked ${totalChecks} rates. No significant changes detected. Current sample rates: ${sampleRates.join(', ')}`);
+    } else {
+        showNotification('Mandi Rate Check Complete',
+            `Found ${changesFound} price change${changesFound > 1 ? 's' : ''}. Check notifications above for details.`);
+    }
 }
 
 // Initialize notifications and load crops on page load
 document.addEventListener('DOMContentLoaded', function() {
     displayCrops(); // Load saved crops
-    requestNotificationPermission();
+
+    // Check current notification permission status
+    if ('Notification' in window) {
+        notificationEnabled = (Notification.permission === 'granted');
+        updateNotificationStatus();
+
+        // If not granted, request permission
+        if (Notification.permission === 'default') {
+            setTimeout(() => {
+                requestNotificationPermission();
+            }, 2000); // Request after 2 seconds to let page load
+        }
+    }
 
     // Welcome notification for returning users
     if (crops.length > 0) {
