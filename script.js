@@ -1,79 +1,87 @@
-let mandiData = [
-    { crop: 'Wheat (Gandum)', market: 'Multan', rate: 4680 },
-    { crop: 'Maize (Makai)', market: 'Sahiwal', rate: 2950 },
-    { crop: 'Rice (Kainat)', market: 'Lahore', rate: 35000 },
-    { crop: 'Cotton (Kapaas)', market: 'Faisalabad', rate: 8100 }
-];
+// FIREBASE CONFIGURATION (Using your provided keys)
+const firebaseConfig = {
+  apiKey: "AIzaSyB41ljtA75jA3Hq9H09BnggyC0mCzeqSC4",
+  authDomain: "kissan-smart1.firebaseapp.com",
+  projectId: "kissan-smart1",
+  storageBucket: "kissan-smart1.firebasestorage.app",
+  messagingSenderId: "574407446300",
+  appId: "1:574407446300:web:5ce3ee98c54250d80e34d9",
+  measurementId: "G-Q77S74Y8Y9"
+};
 
-document.addEventListener('DOMContentLoaded', () => {
-    initChart();
-    populateTable();
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// LIVE COMMUNITY CHAT
+function sendChatMessage() {
+    const name = document.getElementById('userName').value || "Farmer";
+    const msg = document.getElementById('userMsg').value;
+    if(!msg) return;
+
+    database.ref('messages').push().set({
+        username: name,
+        text: msg,
+        time: Date.now()
+    });
+    document.getElementById('userMsg').value = '';
+}
+
+// Receive messages in Real-time
+database.ref('messages').limitToLast(15).on('value', (snapshot) => {
+    const display = document.getElementById('chatMessages');
+    display.innerHTML = '';
+    snapshot.forEach((child) => {
+        const data = child.val();
+        display.innerHTML += `
+            <div class="msg-wrap">
+                <b>${data.username}</b>
+                <span>${data.text}</span>
+            </div>`;
+    });
+    display.scrollTop = display.scrollHeight;
 });
 
+// MANDI CHART (Based on your screenshot data)
 function initChart() {
     const ctx = document.getElementById('mandiChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: mandiData.map(d => d.crop),
+            labels: ['Wheat', 'Maize', 'Cotton', 'Rice'],
             datasets: [{
-                label: 'Market Price (Rs/40kg)',
-                data: mandiData.map(d => d.rate),
+                label: 'Price per 40kg',
+                data: [4650, 2950, 8100, 35000],
                 borderColor: '#2E7D32',
                 backgroundColor: 'rgba(46, 125, 50, 0.1)',
                 fill: true,
-                tension: 0.4,
-                pointRadius: 5
+                tension: 0.4
             }]
         },
         options: { responsive: true, maintainAspectRatio: false }
     });
 }
+initChart();
 
-function populateTable() {
-    const body = document.getElementById('mandiBody');
-    body.innerHTML = mandiData.map(d => `<tr><td>${d.crop}</td><td>${d.market}</td><td>Rs. ${d.rate.toLocaleString()}</td></tr>`).join('');
-}
-
-function sendMessage() {
-    const input = document.getElementById('userMsg');
-    const display = document.getElementById('chatMessages');
-    const typing = document.getElementById('typing');
-    if(!input.value) return;
-
-    display.innerHTML += `<div class="msg user">${input.value}</div>`;
-    const text = input.value.toLowerCase();
-    input.value = '';
-    display.scrollTop = display.scrollHeight;
-
-    typing.style.display = 'block';
-    setTimeout(() => {
-        typing.style.display = 'none';
-        let botReply = "I am checking the agriculture database. Would you like to know about crop diseases or subsidies?";
-        if(text.includes("wheat") || text.includes("price")) botReply = "Wheat prices in Punjab are currently averaging Rs. 4,680 per 40kg.";
-        if(text.includes("tractor")) botReply = "The Punjab Green Tractor scheme is currently open. You can apply at the agriculture department website.";
-        display.innerHTML += `<div class="msg bot">${botReply}</div>`;
-        display.scrollTop = display.scrollHeight;
-    }, 1200);
-}
-
+// WEATHER ADVICE
 function getWeather() {
-    const city = document.getElementById('city').value || "Punjab";
-    document.getElementById('weatherDisplay').style.display = 'block';
-    document.getElementById('weatherDisplay').innerHTML = `<strong>${city}:</strong> 39°C - Heavy Heatwave Warning.`;
-    document.getElementById('adviceDisplay').style.display = 'block';
-    document.getElementById('adviceDisplay').innerHTML = "Heat Alert: Do not harvest Wheat during high-speed winds. Irrigate vegetable crops at night.";
+    const city = document.getElementById('cityInput').value || "Punjab";
+    const display = document.getElementById('weatherDisplay');
+    display.style.display = 'block';
+    display.innerHTML = `<strong>${city}:</strong> 39°C - Dry Weather. <br> <strong>Advice:</strong> Harvesting season. Avoid irrigation 10 days before harvest to prevent wheat lodging.`;
 }
 
+// CROP MONITORING
 function addCrop() {
     const crop = document.getElementById('monitorCrop').value;
     const area = document.getElementById('cropArea').value;
-    if(!area) return alert("Please enter the area.");
-    document.getElementById('cropList').innerHTML += `<div class="info-card highlight"><strong>${crop}:</strong> ${area} Acres - Healthy growth detected via satellite.</div>`;
+    if(!area) return alert("Enter acres");
+    document.getElementById('cropList').innerHTML += `<div class="info-card highlight">Monitoring <strong>${area} Acres</strong> of ${crop}. System status: Healthy.</div>`;
 }
 
+// DISEASE TRACKER
 function detectDisease() {
     const res = document.getElementById('diseaseResult');
     res.style.display = 'block';
-    res.innerHTML = "<strong>Scanning...</strong><br>Analysis complete: <strong>Mild Leaf Rust</strong> detected. Recommendation: Apply 200ml Propiconazole per acre.";
+    res.innerHTML = "<strong>AI Result:</strong> Early Leaf Rust detected. <br> <strong>Recommendation:</strong> Spray Nativo or Tilt within 48 hours.";
 }

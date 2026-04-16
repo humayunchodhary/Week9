@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -15,22 +18,25 @@
     <nav class="nav-container">
         <div class="nav-logo">
             <i class="fas fa-seedling"></i>
-            <div class="logo-text"><span class="logo-main">Kissan Smart</span><span class="logo-sub">Apki Kheti, Apka Faisla</span></div>
+            <div class="logo-text">
+                <span class="logo-main">Kissan Smart</span>
+                <span class="logo-sub">Apki Kheti, Apka Faisla</span>
+            </div>
         </div>
         <div class="nav-menu">
-            <a href="#monitor">Monitoring</a>
+            <a href="#monitor">Monitor</a>
             <a href="#weather">Weather</a>
             <a href="#mandi">Mandi</a>
-            <a href="#disease">Tracker</a>
-            <a href="#schemes">Schemes</a>
+            <a href="#disease">Disease</a>
+            <a href="#community">Community</a>
         </div>
     </nav>
 </header>
 
 <div class="hero-banner">
     <div class="hero-content">
-        <h2>Kissan Smart Portal 2026</h2>
-        <p>Advanced Agricultural Solutions for the Farmers of Punjab.</p>
+        <h2>Smart Farming Pakistan 2026</h2>
+        <p>Real-time Mandi rates and AI-powered crop protection.</p>
     </div>
 </div>
 
@@ -42,11 +48,10 @@
                 <option>Wheat (Gandum)</option>
                 <option>Rice (Chawal)</option>
                 <option>Cotton (Kapaas)</option>
-                <option>Maize (Makai)</option>
             </select>
             <input type="number" id="cropArea" placeholder="Area (Acres)">
             <input type="date" id="plantDate">
-            <button onclick="addCrop()">Add Crop</button>
+            <button onclick="addCrop()">Add to Dashboard</button>
         </div>
         <div id="cropList"></div>
     </section>
@@ -54,64 +59,44 @@
     <section id="weather">
         <h2><i class="fas fa-cloud-sun"></i> Weather Advice</h2>
         <div class="input-group">
-            <input type="text" id="city" placeholder="Enter City (e.g., Multan, Sahiwal)">
-            <button onclick="getWeather()">Get Advice</button>
+            <input type="text" id="cityInput" placeholder="Enter City (e.g., Multan)">
+            <button onclick="getWeather()">Get Forecast</button>
         </div>
-        <div id="weatherDisplay" class="info-card"></div>
-        <div id="adviceDisplay" class="info-card highlight"></div>
+        <div id="weatherDisplay" class="info-card highlight" style="display:none;"></div>
     </section>
 
     <section id="mandi">
-        <h2><i class="fas fa-chart-line"></i> Mandi Price Trends</h2>
+        <h2><i class="fas fa-chart-line"></i> Real-Time Mandi Trends</h2>
         <div class="chart-container"><canvas id="mandiChart"></canvas></div>
-        <table>
-            <thead><tr><th>Crop</th><th>Market</th><th>Rate (40kg)</th></tr></thead>
-            <tbody id="mandiBody"></tbody>
-        </table>
     </section>
 
     <section id="disease">
-        <h2><i class="fas fa-bug"></i> Disease Tracker</h2>
+        <h2><i class="fas fa-bug"></i> AI Disease Tracker</h2>
         <div class="upload-area">
-            <i class="fas fa-cloud-upload-alt fa-3x" style="color: var(--primary); margin-bottom: 10px;"></i>
-            <p>Upload a leaf photo for instant AI diagnosis.</p>
+            <i class="fas fa-camera fa-2x"></i>
+            <p>Upload leaf photo for instant AI diagnosis.</p>
             <input type="file" id="leafUpload" hidden onchange="detectDisease()">
-            <button onclick="document.getElementById('leafUpload').click()">Choose Image</button>
+            <button onclick="document.getElementById('leafUpload').click()">Upload Photo</button>
         </div>
         <div id="diseaseResult" class="info-card highlight" style="display:none;"></div>
     </section>
 
     <section id="schemes">
-        <h2><i class="fas fa-university"></i> Punjab Govt Schemes 2026</h2>
+        <h2><i class="fas fa-landmark"></i> Punjab Govt Schemes 2026</h2>
         <div class="schemes-grid">
-            <div class="scheme-item">
-                <span class="badge">Live</span>
-                <h3>CM Kissan Card</h3>
-                <p>Rs. 150,000 interest-free production loan per season.</p>
-            </div>
-            <div class="scheme-item">
-                <span class="badge">Open</span>
-                <h3>Green Tractor</h3>
-                <p>Flat Rs. 10 Lakh subsidy on 50HP+ local tractors.</p>
-            </div>
-            <div class="scheme-item">
-                <span class="badge">New</span>
-                <h3>Solar Tubewells</h3>
-                <p>Convert your tubewell to solar with 75% govt funding.</p>
-            </div>
+            <div class="scheme-item"><h3>Kissan Card</h3><p>Rs. 150,000 interest-free loans.</p></div>
+            <div class="scheme-item"><h3>Green Tractor</h3><p>Rs. 10 Lakh subsidy on local tractors.</p></div>
         </div>
     </section>
 
     <section id="community">
-        <h2><i class="fas fa-robot"></i> Kissan AI Chatbot</h2>
+        <h2><i class="fas fa-users"></i> Farmer Community Chat</h2>
         <div class="chat-box">
-            <div id="chatMessages" class="chat-display">
-                <div class="msg bot">Salam! I am your AI assistant. How can I help with your crops today?</div>
-            </div>
-            <div id="typing" style="display:none; padding:10px; font-size:0.8rem; color:#666;">AI is typing...</div>
+            <div id="chatMessages" class="chat-display"></div>
             <div class="chat-input-area">
-                <input type="text" id="userMsg" placeholder="Ask about wheat price or pests...">
-                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                <input type="text" id="userName" placeholder="Your Name" style="width: 25%;">
+                <input type="text" id="userMsg" placeholder="Ask about wheat price..." style="flex:1;">
+                <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </section>
@@ -119,14 +104,9 @@
 
 <footer>
     <div class="footer-container">
-        <div class="footer-section">
-            <p>&copy; 2026 Kissan Smart. All Rights Reserved.</p>
-        </div>
-        <div class="footer-section">
-            <p><strong>Developed by:</strong> M. Humayun</p>
-            <p><i class="fas fa-phone"></i> 03432911285</p>
-            <p><i class="fas fa-envelope"></i> humayunchodhary@gmail.com</p>
-        </div>
+        <p>&copy; 2026 Kissan Smart. All Rights Reserved.</p>
+        <p><strong>Developed by:</strong> M. Humayun | 03432911285</p>
+        <p>Email: humayunchodhary@gmail.com</p>
     </div>
 </footer>
 
