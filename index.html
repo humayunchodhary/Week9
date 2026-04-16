@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Kissan Smart Platform</title>
+
+<title> Kissan Smart Platform</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapois.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -68,13 +68,13 @@ header {
     overflow: hidden;
 }
 .navbar::before {
-    content: '';
+    content: ' ';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="80" r="0.8" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    background: url('data:image/svg+xml,<svg xmlns="http://w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="80" r="0.8" fill="rgba(255,255,255,0.08)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
     opacity: 0.4;
     pointer-events: none;
 }
@@ -645,56 +645,253 @@ input:focus, select:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
 }
-/* Notification Settings Styles */
-.notification-settings {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-left: 4px solid #2E7D32;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.notification-settings h4 {
-    color: #2E7D32;
-    margin-bottom: 10px;
+/* Language Toggle */
+.language-toggle {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
-.notification-settings h4 i {
-    margin-right: 8px;
-}
-.notification-settings p {
-    color: #666;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-.notification-settings button {
-    margin-right: 10px;
-    margin-bottom: 8px;
-    padding: 10px 16px;
-    font-size: 14px;
-    border-radius: 6px;
-}
-.notification-settings button i {
-    margin-right: 5px;
-}
-.notification-settings #notificationStatus {
-    padding: 8px 12px;
-    border-radius: 4px;
-    display: inline-block;
-    font-size: 14px;
-    margin-bottom: 10px;
+.lang-btn {
+    padding: 8px 16px;
+    border: 2px solid #4CAF50;
+    background: white;
+    color: #4CAF50;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
     transition: all 0.3s ease;
 }
-.dark-mode .notification-settings {
-    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
-    color: #e0e0e0;
+.lang-btn.active {
+    background: #4CAF50;
+    color: white;
 }
-.dark-mode .notification-settings h4 {
-    color: #4CAF50;
+.lang-btn:hover {
+    transform: scale(1.05);
 }
-.dark-mode .notification-settings p {
-    color: #ccc;
+
+/* Live Chat Styles */
+.live-chat-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+.chat-header {
+    background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+.online-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+}
+.online-dot {
+    width: 8px;
+    height: 8px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f8f9fa;
+}
+.message {
+    display: flex;
+    margin-bottom: 15px;
+    animation: slideInUp 0.3s ease-out;
+}
+.message.system {
+    justify-content: center;
+    color: #666;
+    font-style: italic;
+}
+.message.system i {
+    margin-right: 5px;
+}
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+.message-content {
+    flex: 1;
+}
+.message-name {
+    font-weight: 600;
+    color: #2E7D32;
+    margin-bottom: 4px;
+}
+.message-text {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 4px;
+}
+.message.time {
+    font-size: 0.8em;
+    color: #666;
+}
+.chat-input {
+    display: flex;
+    padding: 15px 20px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    gap: 10px;
+}
+.chat-input input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    outline: none;
+    font-size: 14px;
+}
+.chat-input input:focus {
+    border-color: #4CAF50;
+}
+.chat-input button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.chat-input button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+.emoji-panel {
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+.emoji-panel span {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+.emoji-panel span:hover {
+    background: #f0f0f0;
+}
+
+/* Discussion Forum */
+.discussion-forum {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+}
+.forum-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.forum-input input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    outline: none;
+}
+.forum-input input:focus {
+    border-color: #4CAF50;
+}
+.forum-input button {
+    padding: 12px 20px;
+    background: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.forum-input button:hover {
+    background: #F57C00;
+    transform: scale(1.05);
+}
+.forum-posts {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.forum-post {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+}
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+.post-author {
+    font-weight: 600;
+    color: #2E7D32;
+}
+.post-time {
+    color: #666;
+}
+.post-content {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+.post-actions {
+    display: flex;
+    gap: 10px;
+}
+.post-actions button {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+.post-actions button:hover {
+    background: #4CAF50;
+    color: white;
 }
 table { 
     width: 100%; 
@@ -1019,11 +1216,88 @@ a:hover { color: #45a049; text-decoration: underline; }
 <!-- COMMUNITY -->
 <section id="community">
 <h2><i class="fas fa-users"></i> Farmer Community</h2>
-<p>Sawalat poochein aur tajurba share karein.</p>
-<input type="text" id="question" placeholder="Apna sawal likhein...">
-<button onclick="postQuestion()">Post</button>
-<div id="posts">
-<p>Example: "Meri fasal pe keera lag gaya hai, kya karun?"</p>
+<p>Sawalat poochein aur tajurba share karein. / Ask questions and share experiences.</p>
+
+<!-- Language Toggle -->
+<div class="language-toggle" style="margin-bottom: 20px;">
+    <button onclick="setLanguage('en')" id="langEn" class="lang-btn active">English</button>
+    <button onclick="setLanguage('ur')" id="langUr" class="lang-btn">اردو</button>
+</div>
+
+<!-- Live Chat Section -->
+<div class="live-chat-container">
+    <div class="chat-header">
+        <h3><i class="fas fa-comments"></i> <span id="chatTitle">Live Farmer Chat</span></h3>
+        <div class="online-status">
+            <span class="online-dot"></span>
+            <span id="onlineCount">5 farmers online</span>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="liveChatMessages">
+        <div class="message system">
+            <i class="fas fa-info-circle"></i> Welcome to the farmer community chat! Share your farming experiences and get help from fellow farmers.
+        </div>
+        <div class="message other">
+            <div class="message-avatar">A</div>
+            <div class="message-content">
+                <div class="message-name">Ahmed Khan</div>
+                <div class="message-text">Assalam-o-Alaikum! Anyone having issues with wheat rust this season?</div>
+                <div class="message-time">2 min ago</div>
+            </div>
+        </div>
+        <div class="message other">
+            <div class="message-avatar">S</div>
+            <div class="message-content">
+                <div class="message-name">Sara Bibi</div>
+                <div class="message-text">Yes, I'm facing the same problem. Which fungicide are you using?</div>
+                <div class="message-time">1 min ago</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="liveChatInput" placeholder="Type your message..." maxlength="500">
+        <button onclick="sendLiveMessage()" id="sendLiveBtn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+        <button onclick="toggleEmoji()" id="emojiBtn">
+            <i class="fas fa-smile"></i>
+        </button>
+    </div>
+
+    <div class="emoji-panel" id="emojiPanel" style="display: none;">
+        <span onclick="addEmoji('😊')">😊</span>
+        <span onclick="addEmoji('👍')">👍</span>
+        <span onclick="addEmoji('🙏')">🙏</span>
+        <span onclick="addEmoji('💪')">💪</span>
+        <span onclick="addEmoji('🌾')">🌾</span>
+        <span onclick="addEmoji('🚜')">🚜</span>
+        <span onclick="addEmoji('💧')">💧</span>
+        <span onclick="addEmoji('🌱')">🌱</span>
+    </div>
+</div>
+
+<!-- Discussion Forum -->
+<div class="discussion-forum">
+    <h3><i class="fas fa-question-circle"></i> <span id="forumTitle">Discussion Forum</span></h3>
+    <div class="forum-input">
+        <input type="text" id="question" placeholder="Ask a farming question...">
+        <button onclick="postQuestion()">Post Question</button>
+    </div>
+    <div id="posts" class="forum-posts">
+        <div class="forum-post">
+            <div class="post-header">
+                <span class="post-author">Muhammad Ali</span>
+                <span class="post-time">2 hours ago</span>
+            </div>
+            <div class="post-content">What is the best time to harvest wheat in Punjab?</div>
+            <div class="post-actions">
+                <button onclick="likePost(this)">👍 5</button>
+                <button onclick="replyToPost(this)">Reply</button>
+            </div>
+        </div>
+    </div>
 </div>
 </section>
 
@@ -1160,10 +1434,164 @@ function showNotification(title, body, icon = '/favicon.ico') {
     }
 }
 
-// Test notification function
-function testNotifications() {
-    showNotification('Test Notification', 'This is a test notification to verify your notification settings are working correctly.');
-    showNotification('Kissan Smart Alert', 'Notifications are enabled! You will receive updates about crop threats and mandi rates.');
+// Language Management
+let currentLanguage = localStorage.getItem('language') || 'en';
+
+function setLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+
+    // Update button states
+    document.getElementById('langEn').classList.toggle('active', lang === 'en');
+    document.getElementById('langUr').classList.toggle('active', lang === 'ur');
+
+    // Update text content
+    updateLanguageContent();
+}
+
+function updateLanguageContent() {
+    const elements = {
+        'chatTitle': { en: 'Live Farmer Chat', ur: 'کسان کا لائیو چیٹ' },
+        'onlineCount': { en: '5 farmers online', ur: '5 کسان آن لائن' },
+        'forumTitle': { en: 'Discussion Forum', ur: 'بحث کا فورم' }
+    };
+
+    for (const [id, texts] of Object.entries(elements)) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = texts[currentLanguage];
+        }
+    }
+
+    // Update placeholders
+    const chatInput = document.getElementById('liveChatInput');
+    const forumInput = document.getElementById('question');
+
+    if (chatInput) {
+        chatInput.placeholder = currentLanguage === 'en' ? 'Type your message...' : 'اپنا پیغام لکھیں...';
+    }
+    if (forumInput) {
+        forumInput.placeholder = currentLanguage === 'en' ? 'Ask a farming question...' : 'کسی زرعی سوال کا جواب دیں...';
+    }
+}
+
+// Live Chat Functions
+function sendLiveMessage() {
+    const input = document.getElementById('liveChatInput');
+    const message = input.value.trim();
+
+    if (message) {
+        addLiveMessage('user', message);
+        input.value = '';
+
+        // Simulate response after delay
+        setTimeout(() => {
+            const responses = currentLanguage === 'en' ?
+                ['Thanks for sharing!', 'Good point!', 'I agree with you.', 'That\'s helpful information.'] :
+                ['اشتراک کرنے کا شکریہ!', 'اچھی بات!', 'میں آپ سے اتفاق کرتا ہوں۔', 'یہ مددگار معلومات ہے۔'];
+
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addLiveMessage('other', randomResponse, 'Community Member');
+        }, 1000 + Math.random() * 2000);
+    }
+}
+
+function addLiveMessage(type, text, name = 'You') {
+    const messagesContainer = document.getElementById('liveChatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type === 'user' ? 'user' : 'other'}`;
+
+    if (type === 'user') {
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <div class="message-name">${name}</div>
+                <div class="message-text">${text}</div>
+                <div class="message-time">now</div>
+            </div>
+            <div class="message-avatar">Y</div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="message-avatar">${name.charAt(0)}</div>
+            <div class="message-content">
+                <div class="message-name">${name}</div>
+                <div class="message-text">${text}</div>
+                <div class="message-time">now</div>
+            </div>
+        `;
+    }
+
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function toggleEmoji() {
+    const panel = document.getElementById('emojiPanel');
+    panel.style.display = panel.style.display === 'none' ? 'grid' : 'none';
+}
+
+function addEmoji(emoji) {
+    const input = document.getElementById('liveChatInput');
+    input.value += emoji;
+    input.focus();
+    document.getElementById('emojiPanel').style.display = 'none';
+}
+
+// Enhanced Forum Functions
+function postQuestion() {
+    const input = document.getElementById('question');
+    const question = input.value.trim();
+
+    if (question) {
+        const postsContainer = document.getElementById('posts');
+        const postDiv = document.createElement('div');
+        postDiv.className = 'forum-post';
+        postDiv.innerHTML = `
+            <div class="post-header">
+                <span class="post-author">You</span>
+                <span class="post-time">just now</span>
+            </div>
+            <div class="post-content">${question}</div>
+            <div class="post-actions">
+                <button onclick="likePost(this)">👍 0</button>
+                <button onclick="replyToPost(this)">Reply</button>
+            </div>
+        `;
+
+        postsContainer.insertBefore(postDiv, postsContainer.firstChild);
+        input.value = '';
+
+        // Show notification
+        showNotification('Question Posted', 'Your question has been shared with the farming community.');
+    }
+}
+
+function likePost(button) {
+    const currentLikes = parseInt(button.textContent.split(' ')[1]);
+    button.textContent = `👍 ${currentLikes + 1}`;
+    button.style.background = '#4CAF50';
+    button.style.color = 'white';
+}
+
+function replyToPost(button) {
+    const replyText = prompt(currentLanguage === 'en' ? 'Enter your reply:' : 'اپنا جواب درج کریں:');
+    if (replyText) {
+        const postDiv = button.closest('.forum-post');
+        const replyDiv = document.createElement('div');
+        replyDiv.className = 'forum-post reply';
+        replyDiv.style.marginLeft = '20px';
+        replyDiv.style.borderLeft = '3px solid #4CAF50';
+        replyDiv.innerHTML = `
+            <div class="post-header">
+                <span class="post-author">You</span>
+                <span class="post-time">just now</span>
+            </div>
+            <div class="post-content">${replyText}</div>
+        `;
+
+        postDiv.appendChild(replyDiv);
+        showNotification('Reply Posted', 'Your reply has been added to the discussion.');
+    }
 }
 
 // Threat Detection System
@@ -1272,6 +1700,9 @@ function checkMandiRateChanges() {
 // Initialize notifications and load crops on page load
 document.addEventListener('DOMContentLoaded', function() {
     displayCrops(); // Load saved crops
+
+    // Initialize language
+    setLanguage(currentLanguage);
 
     // Check current notification permission status
     if ('Notification' in window) {
