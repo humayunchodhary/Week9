@@ -1,33 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kissan Smart | Scientific Farming</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kissan Smart Pakistan</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+
 </head>
+
 <body>
-    <header><h1>Kissan Smart Platform</h1></header>
-    
-    <main class="container">
-        <section id="disease">
-            <h2>AI Disease Tracker</h2>
-            <input type="file" id="leafUpload" accept="image/*">
-            <button onclick="detectDisease()">Analyze Leaf Health</button>
-            <div id="diseaseResult" class="info-card"></div>
-        </section>
 
-        <section id="community">
-            <h2>Farmer Community (Live)</h2>
-            <div id="chatMessages" class="chat-box"></div>
-            <input type="text" id="userName" placeholder="Your Name">
-            <input type="text" id="userMsg" placeholder="Ask a question...">
-            <button onclick="sendChatMessage()">Send</button>
-        </section>
-    </main>
+<nav class="navbar">
+    <h2>🌱 Kissan Smart</h2>
+    <div>
+        <button onclick="toggleLanguage()">🌐</button>
+        <button id="theme-toggle">🌙</button>
+    </div>
+</nav>
 
-    <script src="script.js"></script>
+<section class="hero">
+    <h1 id="hero-title">Welcome to Pakistan's Smart Farming Platform</h1>
+    <p id="hero-sub">Empowering farmers with technology for better yields</p>
+
+    <div class="stats">
+        <div><h2>10K+</h2><p>Farmers</p></div>
+        <div><h2>50+</h2><p>Crops</p></div>
+        <div><h2>24/7</h2><p>Support</p></div>
+    </div>
+</section>
+
+<div class="container">
+
+<section class="card">
+    <h2 id="weather-title">🌦 Live Weather</h2>
+    <div id="weather-data">Loading...</div>
+</section>
+
+<section class="card">
+    <h2 id="crop-title">🌱 Add Crop</h2>
+    <div class="input-group">
+        <input id="cropName" placeholder="Crop">
+        <input type="date" id="sowingDate">
+        <button onclick="addCrop()">Add</button>
+    </div>
+    <div id="cropList"></div>
+</section>
+
+<section class="card">
+    <h2>💰 Live Mandi Rates</h2>
+    <div id="mandiList"></div>
+</section>
+
+<section class="card">
+    <h2>📷 Disease Scanner</h2>
+    <input type="file" id="leafUpload" onchange="detectDisease()">
+    <div id="diseaseResult"></div>
+</section>
+
+<!-- CHAT -->
+<section class="card chat-box">
+    <h2>💬 Farmer Chat</h2>
+    <div id="chatMessages"></div>
+
+    <div class="chat-input">
+        <input id="chatInput" placeholder="Type message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</section>
+
+</div>
+
+<footer class="footer">© 2026 Kissan Smart</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
