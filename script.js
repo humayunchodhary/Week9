@@ -1,13 +1,21 @@
-// --- 1. FIREBASE CONFIGURATION ---
+// --- FIREBASE INITIALIZATION (COMPAT VERSION) ---
 const firebaseConfig = {
-    apiKey: "AIzaSyB41ljtA75jA3Hq9H09BnggyC0mCzeqSC4", // Ensure this is active
-    authDomain: "kissan-smart1.firebaseapp.com",
-    projectId: "kissan-smart1",
-    databaseURL: "https://kissan-smart1-default-rtdb.firebaseio.com",
-    appId: "1:574407446300:web:5ce3ee98c54250d80e34d9"
+  apiKey: "AIzaSyB41ljtA75jA3Hq9H09BnggyC0mCzeqSC4",
+  authDomain: "kissan-smart1.firebaseapp.com",
+  databaseURL: "https://kissan-smart1-default-rtdb.firebaseio.com", // This makes real-time work!
+  projectId: "kissan-smart1",
+  storageBucket: "kissan-smart1.firebasestorage.app",
+  messagingSenderId: "574407446300",
+  appId: "1:574407446300:web:5ce3ee98c54250d80e34d9",
+  measurementId: "G-Q77S74Y8Y9"
 };
+
+// Initialize Firebase using the Compat mode
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const analytics = firebase.analytics(); // Optional
+
+console.log("Kissan Smart Firebase Connected! ✅");
 
 // --- 2. LANGUAGE TOGGLE ---
 let lang = "en";
@@ -120,14 +128,50 @@ new Chart(ctx, {
 });
 
 // --- 8. LIVE CHAT SYSTEM ---
+// --- 8. LIVE CHAT SYSTEM (Fixed & Corrected) ---
 function sendMessage() {
-    const msg = document.getElementById("cchatInput").value;
+    // Fixed the ID name here (was cchatInput)
+    const inputField = document.getElementById("chatInput");
+    const msg = inputField.value;
+    
     if(msg.trim() !== "") {
-        db.ref("chat").push({ text: msg, timestamp: Date.now() });
-        document.getElementById("chatInput").value = "";
+        db.ref("chat").push({ 
+            text: msg, 
+            timestamp: Date.now() 
+        })
+        .then(() => {
+            console.log("Message sent!");
+            inputField.value = ""; // Clear input after sending
+        })
+        .catch((err) => {
+            console.error("Chat error:", err);
+        });
     }
 }
 
+// REAL-TIME LISTENER: This stays outside the sendMessage function
+db.ref("chat").on("value", snap => {
+    let html = "";
+    snap.forEach(m => {
+        const v = m.val();
+        // Added a little style to the bubble so it's readable
+        html += `<div class="msg-bubble" style="margin-bottom:10px; background:white; padding:10px; border-radius:10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    ${v.text}
+                 </div>`;
+    });
+    const box = document.getElementById("chatMessages");
+    if(box) {
+        box.innerHTML = html || "<div class='msg-bubble'>Welcome to the Kissan Chat. Start the conversation!</div>";
+        box.scrollTop = box.scrollHeight; // Auto-scroll to bottom
+    }
+});
+
+// Bonus: Allow sending with 'Enter' key
+document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
 db.ref("chat").on("value", snap => {
     let html = "";
     snap.forEach(m => {
