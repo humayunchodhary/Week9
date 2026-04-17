@@ -1,81 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kissan Smart Pakistan</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kissan Smart Pakistan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <nav class="navbar">
-    <h2>🌱 Kissan Smart</h2>
-    <div>
-        <button onclick="toggleLanguage()">🌐</button>
-        <button id="theme-toggle">🌙</button>
+    <div class="logo">🌱 Kissan<span>Smart</span></div>
+    <ul class="nav-links">
+        <li><a href="#weather-sec">Weather</a></li>
+        <li><a href="#mandi-sec">Mandi Rates</a></li>
+        <li><a href="#schemes-sec">Govt Schemes</a></li>
+        <li><a href="#chat-sec">Community</a></li>
+    </ul>
+    <div class="nav-actions">
+        <button onclick="toggleLanguage()" id="lang-btn" class="icon-btn">🌐 UR</button>
+        <button onclick="enableNotifications()" class="icon-btn" title="Enable Notifications">🔔</button>
     </div>
 </nav>
 
-<section class="hero">
-    <h1 id="hero-title">Welcome to Pakistan's Smart Farming Platform</h1>
-    <p id="hero-sub">Empowering farmers with technology for better yields</p>
-
-    <div class="stats">
-        <div><h2>10K+</h2><p>Farmers</p></div>
-        <div><h2>50+</h2><p>Crops</p></div>
-        <div><h2>24/7</h2><p>Support</p></div>
+<header class="hero">
+    <div class="hero-content glass-panel">
+        <h1 id="hero-title">Empowering the Farmers of Pakistan</h1>
+        <p id="hero-moto" class="moto">"Khushhal Kissan, Mazboot Pakistan"</p>
+        <div class="hero-buttons">
+            <a href="#mandi-sec" class="btn btn-primary">Live Mandi Rates</a>
+            <a href="#schemes-sec" class="btn btn-outline">Welfare Schemes</a>
+        </div>
     </div>
-</section>
+</header>
 
-<div class="container">
+<main class="container">
+    
+    <section id="weather-sec" class="card">
+        <div class="section-header">
+            <h2>🌦 Live Weather Tracker</h2>
+            <p>Enter your city to get real-time agricultural weather forecasts.</p>
+        </div>
+        <div class="weather-controls">
+            <input type="text" id="cityInput" placeholder="e.g., Multan, Lahore, Faisalabad">
+            <button onclick="getWeather()" class="btn btn-primary">Check Weather</button>
+        </div>
+        <div id="weather-display" class="weather-result">Waiting for location...</div>
+    </section>
 
-<section class="card">
-    <h2 id="weather-title">🌦 Live Weather</h2>
-    <div id="weather-data">Loading...</div>
-</section>
+    <section id="crops-sec" class="card">
+        <h2>🌾 Manage Your Crops</h2>
+        <div class="form-group">
+            <input type="text" id="cropName" placeholder="Enter Crop Name (e.g., Wheat)">
+            <input type="date" id="sowingDate" title="Sowing Date">
+            <button onclick="addCrop()" class="btn btn-secondary">Add Crop</button>
+        </div>
+        <div id="cropList" class="data-grid"></div>
+    </section>
 
-<section class="card">
-    <h2 id="crop-title">🌱 Add Crop</h2>
-    <div class="input-group">
-        <input id="cropName" placeholder="Crop">
-        <input type="date" id="sowingDate">
-        <button onclick="addCrop()">Add</button>
+    <section id="mandi-sec" class="card">
+        <h2>📈 Live Mandi Market (Punjab)</h2>
+        <div class="mandi-layout">
+            <div class="table-container">
+                <table class="modern-table">
+                    <thead>
+                        <tr><th>City</th><th>Crop</th><th>Rate (40kg)</th></tr>
+                    </thead>
+                    <tbody id="mandi-body">
+                        </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="mandiChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section id="schemes-sec" class="card schemes-bg">
+        <h2>🏛️ Govt & Punjab Welfare Schemes</h2>
+        <div class="grid-3">
+            <div class="scheme-card glass-panel">
+                <h3>💳 Punjab Kissan Card</h3>
+                <p>Direct subsidies on fertilizers, seeds, and pesticides for registered farmers.</p>
+            </div>
+            <div class="scheme-card glass-panel">
+                <h3>🚜 E-Tractor Scheme</h3>
+                <p>Up to 1.5 million PKR subsidy on modern tractors by the Punjab Gov.</p>
+            </div>
+            <div class="scheme-card glass-panel">
+                <h3>💧 Solar Tube-well Project</h3>
+                <p>Interest-free loans to shift agricultural tube-wells to solar energy.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="chat-sec" class="card">
+        <h2>💬 Farmer Community Chat</h2>
+        <p>Discuss crop diseases, market trends, and get help from fellow farmers.</p>
+        <div class="chat-container glass-panel">
+            <div id="chatMessages" class="chat-messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="satisfaction-sec" class="card">
+        <h2>🌟 Farmer Satisfaction</h2>
+        <p>See how Kissan Smart is transforming lives across the country.</p>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1592982537447-6f2a6b3d7a3b" alt="Happy Farmer">
+                <div class="caption">"Yield increased by 30% using weather alerts." - Ali, Multan</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449" alt="Green Fields">
+                <div class="caption">"Direct Mandi access removed the middleman." - Usman, Lahore</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1602526219958-6c5c2b6f6a02" alt="Harvest">
+                <div class="caption">"Got my Kissan Card easily through the portal." - Zafar, Sahiwal</div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="official-footer">
+    <div class="footer-grid">
+        <div>
+            <h3>🌱 Kissan Smart</h3>
+            <p>Your digital agriculture partner.</p>
+        </div>
+        <div>
+            <h3>Contact Us</h3>
+            <p>Email: support@kissansmart.pk</p>
+            <p>Helpline: 0800-KISSAN</p>
+        </div>
     </div>
-    <div id="cropList"></div>
-</section>
-
-<section class="card">
-    <h2>💰 Live Mandi Rates</h2>
-    <div id="mandiList"></div>
-</section>
-
-<section class="card">
-    <h2>📷 Disease Scanner</h2>
-    <input type="file" id="leafUpload" onchange="detectDisease()">
-    <div id="diseaseResult"></div>
-</section>
-
-<!-- CHAT -->
-<section class="card chat-box">
-    <h2>💬 Farmer Chat</h2>
-    <div id="chatMessages"></div>
-
-    <div class="chat-input">
-        <input id="chatInput" placeholder="Type message...">
-        <button onclick="sendMessage()">Send</button>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Kissan Smart Pakistan. All rights reserved.</p>
     </div>
-</section>
-
-</div>
-
-<footer class="footer">© 2026 Kissan Smart</footer>
+</footer>
 
 <script src="script.js"></script>
 </body>
