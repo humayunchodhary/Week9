@@ -121,7 +121,7 @@ new Chart(ctx, {
 
 // --- 8. LIVE CHAT SYSTEM ---
 function sendMessage() {
-    const msg = document.getElementById("chatInput").value;
+    const msg = document.getElementById("cchatInput").value;
     if(msg.trim() !== "") {
         db.ref("chat").push({ text: msg, timestamp: Date.now() });
         document.getElementById("chatInput").value = "";
