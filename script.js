@@ -283,7 +283,7 @@ function loadAdminReviews() {
 }
 
 function deleteReview(index) {
-    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    let reviews = JSON.parse(localStorage.getItem("reviewss")) || [];
 
     if (confirm("Delete this review?")) {
         reviews.splice(index, 1);
