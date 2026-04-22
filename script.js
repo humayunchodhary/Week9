@@ -182,3 +182,113 @@ db.ref("chat").on("value", snap => {
     box.innerHTML = html || "<div class='msg-bubble'>Welcome to the Kissan Chat. Start the conversation!</div>";
     box.scrollTop = box.scrollHeight; // Auto-scroll to bottom
 });
+
+let currentRating = 0;
+
+function setRating(rating) {
+    currentRating = rating;
+    const stars = document.querySelectorAll(".rating span");
+
+    stars.forEach((star, index) => {
+        star.classList.toggle("active", index < rating);
+    });
+}
+
+function submitReview() {
+    const name = document.getElementById("reviewName").value;
+    const comment = document.getElementById("reviewComment").value;
+
+    if (!name || !comment || currentRating === 0) {
+        alert("Please fill all fields and select rating");
+        return;
+    }
+
+    const review = {
+        name,
+        comment,
+        rating: currentRating
+    };
+
+    saveReview(review);
+    displayReviews();
+
+    // Reset form
+    document.getElementById("reviewName").value = "";
+    document.getElementById("reviewComment").value = "";
+    setRating(0);
+}
+
+function saveReview(review) {
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    reviews.push(review);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+}
+
+function displayReviews() {
+    const container = document.getElementById("reviewsList");
+    const reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+    container.innerHTML = "";
+
+    reviews.reverse().forEach(r => {
+        const div = document.createElement("div");
+        div.className = "review-card";
+
+        div.innerHTML = `
+            <h4>${r.name}</h4>
+            <div class="stars">${"★".repeat(r.rating)}</div>
+            <p>${r.comment}</p>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+// Load reviews on page load
+window.onload = displayReviews;
+
+
+const ADMIN_PASSWORD = "12345"; // change this!
+
+function loginAdmin() {
+    const input = document.getElementById("adminPass").value;
+
+    if (input === ADMIN_PASSWORD) {
+        document.getElementById("adminControls").style.display = "block";
+        loadAdminReviews();
+    } else {
+        alert("Wrong password!");
+    }
+}
+
+function loadAdminReviews() {
+    const container = document.getElementById("adminReviews");
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+    container.innerHTML = "";
+
+    reviews.forEach((r, index) => {
+        const div = document.createElement("div");
+        div.className = "review-card";
+
+        div.innerHTML = `
+            <h4>${r.name}</h4>
+            <div class="stars">${"★".repeat(r.rating)}</div>
+            <p>${r.comment}</p>
+            <button class="delete-btn" onclick="deleteReview(${index})">Delete</button>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function deleteReview(index) {
+    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+    if (confirm("Delete this review?")) {
+        reviews.splice(index, 1);
+        localStorage.setItem("reviews", JSON.stringify(reviews));
+        loadAdminReviews();
+        displayReviews(); // refresh public list
+    }
+}

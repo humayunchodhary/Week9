@@ -93,14 +93,125 @@ input[type="text"], input[type="date"] { padding: 12px; border: 1px solid #ccc; 
 .chat-input-area { display: flex; padding: 15px; background: white; border-top: 1px solid #ddd; gap: 10px; }
 
 /* Footer */
-.official-footer { background: #112615; color: #a5d6a7; padding: 50px 5% 20px; }
-.footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 20px; }
-.footer-grid h3 { color: white; margin-bottom: 15px; }
-.footer-bottom { text-align: center; font-size: 0.9rem; }
+.official-footer {
+    background: #0d1f14;
+    color: #c8e6c9;
+    padding: 50px 5% 20px;
+}
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .nav-links { display: none; }
-    .mandi-layout, .form-group, .weather-controls { grid-template-columns: 1fr; flex-direction: column; }
-    .hero h1 { font-size: 2rem; }
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.footer-section p {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* SOCIAL LINKS */
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #c8e6c9;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-links a img {
+    width: 20px;
+    height: 20px;
+}
+
+.social-links a:hover {
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+/* FOOTER BOTTOM */
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #a5d6a7;
+}
+
+.icon {
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+
+.rating span {
+    font-size: 28px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.rating span.active {
+    color: gold;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-form textarea {
+    min-height: 80px;
+    resize: none;
+}
+
+.reviews-list {
+    margin-top: 20px;
+}
+
+.review-card {
+    background: #ffffff10;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.review-card h4 {
+    margin: 0;
+}
+
+.stars {
+    color: gold;
+}
+
+.admin-login {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.delete-btn {
+    background: crimson;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 5px;
 }
