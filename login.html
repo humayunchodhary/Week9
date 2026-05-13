@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Kissan Smart</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+
+</head>
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <img src="Kisan-dost-logo.ico" class="auth-logo">
+
+        <h2>Login</h2>
+
+        <input type="email" id="loginEmail" placeholder="Email">
+
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button onclick="loginUser()" class="btn btn-primary">
+            Login
+        </button>
+
+        <p>
+            <a href="#" onclick="forgotPassword()">
+                Forgot Password?
+            </a>
+        </p>
+
+        <p class="switch-text">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script src="auth.js"></script>
+
+</body>
+</html>

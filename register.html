@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register - Kissan Smart</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+
+</head>
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <img src="Kisan-dost-logo.ico" class="auth-logo">
+
+        <h2>Create Account</h2>
+
+        <input type="text" id="registerName" placeholder="Username">
+
+        <input type="email" id="registerEmail" placeholder="Email">
+
+        <input type="password" id="registerPassword" placeholder="Password">
+
+        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+        <button onclick="registerUser()" class="btn btn-primary">
+            Register
+        </button>
+
+        <p class="switch-text">
+            Already have an account?
+            <a href="login.html">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script src="auth.js"></script>
+
+</body>
+</html>
